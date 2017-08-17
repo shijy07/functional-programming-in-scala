@@ -1,5 +1,3 @@
-
-
 object Solution{
 	//2.1 
 	def fib(n: Int): Int = {
@@ -23,7 +21,23 @@ object Solution{
 
 		loop(0)
 	}
+    
+    //2.3
 
+    def curry[A, B, C](f: (A,B) => C) : A => (B => C) = {
+        a => b => f(a, b)
+    }
+
+    //2.4
+    def uncurry[A,B,C](f: A => B => C) : (A, B) => C = {
+       (a, b) => f(a)(b)
+    }
+
+    //2.5
+    def compose[A,B,C](f: B => C, g: A => B): A => C = {
+    	a => f(g(a))
+
+    }
 	private def formatResults(name: String, n: Int, f: Int => Int) = {
 		val msg = "The %dth %s is %d."
 		msg.format(n, name, f(n))

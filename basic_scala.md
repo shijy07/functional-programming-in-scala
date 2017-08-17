@@ -121,3 +121,5 @@ def findFirst[A](as: Array[A], p: A => Boolean): Int = {
 }
 ```
 If a function  is polymorphic in some type `A`, the on;y operations that can be performed on that `A` are those passed into the function as arguments. 
+
+* Currying, uncurrying and compositions of functoins is similar to the definition in mathematics.* Just take `=>` as mappings.
