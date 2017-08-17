@@ -77,3 +77,34 @@ To import all members of a module:
 ```scala
 import MyModule._
 ```
+
+### Passing functions to functions
+
+#### Writing loops functionally
+
+Take `factorial` as an example:
+
+```scala
+def factorial(n: Int): Int = {
+	def go(n: Int, acc: Int): Int ={
+		// n: remaining value
+		// acc: accumulated factorial
+		if (n <= 0) acc
+		else go(n-1, n*acc)
+	}
+
+	go(n, 1)
+}
+```
+
+The loops functionally is implemented with a recursive function instead of mutating a loop variable. We defined a helper function inside the body which is typically called `go` or `loop` by convension.
+
+In scala, we can define function inside of any block. Since it's local, the `go` function can only be referred to from within the body of `factorial` function. 
+
+##### A side note on tail calls
+A call is said to be in tail position if the caller does nothing other than return the value of the recursive call (i.e. `go(n-1, n*acc)`). On other hand, if we had `1 + go(n-1, n*acc)` then `go` would no longer be in tail position. 
+
+If all recursive calls made by a function are in tail position, Scala automatically compilies the recursion to iterative loops that don't consume call stack frames for each iteration. By default, Sacala won't tell if tail call elimination was successful, but if we are expecting this to occur for a recursive function we write, we can tell scala compliler by adding `@annotation.tailrec` before the `go` function.
+
+
+
