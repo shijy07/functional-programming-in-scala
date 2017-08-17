@@ -1,4 +1,7 @@
+
+
 object Solution{
+	//2.1 
 	def fib(n: Int): Int = {
 		def go(n: Int): Int = {
 			if (n == 0 || n == 1) n
@@ -8,12 +11,23 @@ object Solution{
         go(n)
 	}
 
+	//2.2
+	def isSorted[A](as: Array[A], ordered: (A,A) => Boolean): Boolean = {
+		
+		@annotation.tailrec
+		def loop(n: Int): Boolean ={
+			if (n >= as.length -1) true
+			else if (! ordered(as(n), as(n+1))) false
+			else loop(n+1)
+		}
+
+		loop(0)
+	}
+
 	private def formatResults(name: String, n: Int, f: Int => Int) = {
 		val msg = "The %dth %s is %d."
 		msg.format(n, name, f(n))
 	}
-	def main(args: Array[String]): Unit = {
-        //2.1
-		println(formatResults("Fibonacci number", 6, fib))
-	}
 }
+
+
