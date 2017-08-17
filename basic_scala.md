@@ -106,5 +106,18 @@ A call is said to be in tail position if the caller does nothing other than retu
 
 If all recursive calls made by a function are in tail position, Scala automatically compilies the recursion to iterative loops that don't consume call stack frames for each iteration. By default, Sacala won't tell if tail call elimination was successful, but if we are expecting this to occur for a recursive function we write, we can tell scala compliler by adding `@annotation.tailrec` before the `go` function.
 
+### Polymorphic functions
 
+We we write HOFs (higher order functions), we want to write code that works for any type it's given. These are called *polymorphic* functions.
 
+```scala
+def findFirst[A](as: Array[A], p: A => Boolean): Int = {
+	@annotation.tailrec
+	def loop(n: Int): Int =
+	    if (n >= as.length) -1
+	    else if (p(as(n))) n
+        else loop(n + 1)
+    loop(0)
+}
+```
+If a function  is polymorphic in some type `A`, the on;y operations that can be performed on that `A` are those passed into the function as arguments. 
