@@ -48,6 +48,27 @@ object List { // `List` companion object. Contains functions for creating and wo
         case Cons(_,Nil) => Nil
         case Cons(h,t) => Cons(h,init(t))
     }
+
+    def foldRight[A,B](as: List[A], z: B)(f: (A, B) => B): B = as match {
+        case Nil => z
+        case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+    }
+
+    def length[A] (as: List[A]): Int = {
+        foldRight(as, 0)((_,acc) => acc + 1)
+    }
+
+    def foldLeft[A,B](as: List[A], z:B) (f: (B,A) => B): B = as match {
+        case Nil => z
+        case Cons(h,t) => foldLeft(t, f(z,h))(f)
+
+    }
+
+    def sum2(l: List[Int]) = foldLeft(l, 0)(_+_)
+
+    def product2(l:List[Double]) = foldLeft(l, 1.0)(_*_)
+
+    def reverse[A](l: List[A]) = foldLeft(l, List[A]()) ((acc,h) => Cons(h, acc))
 }
 
 object TestChap3{
@@ -102,6 +123,21 @@ object TestChap3{
         println("Expected: \nCons(1,Cons(2,Cons(3,Cons(4,Nil))))")
         println("Actual:")
         println(p)
+
+        //3.9
+        val len = List.length(l)
+        println("Exercise 3.9")
+        println("Expected: 5")
+        println("Actual: %d"format(len))
+
+        //3.12
+
+        val r = List.reverse(l)
+        println("Exercise 3.12")
+        println("Expected: \nCons(5,Cons(4,Cons(3,Cons(2,Cons(1,Nil)))))")
+        println("Actual:")
+        println(r)
+
 
     }
 }
