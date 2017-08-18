@@ -1,4 +1,4 @@
-object Solution{
+object SolutionChap2{
 	//2.1 
 	def fib(n: Int): Int = {
 		def go(n: Int): Int = {

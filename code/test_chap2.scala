@@ -1,5 +1,5 @@
 object TestChap2{
-	import Solution._
+	import SolutionChap2._
 	def main(args: Array[String]): Unit = {
         //2.1
 		println("Test Fibonacci")
