@@ -80,7 +80,7 @@ object List { // `List` companion object. Contains functions for creating and wo
         case Nil => a2
         case Cons(h,t) => Cons(h, append(t, a2))
     }
-    
+
     def appendViaFoldRight[A](l: List[A], r: List[A]): List[A] =
         foldRight(l, r)(Cons(_,_)) 
     
@@ -93,7 +93,43 @@ object List { // `List` companion object. Contains functions for creating and wo
     def doubleToString(l: List[Double]): List[String] =
         foldRight(l, Nil:List[String])((h,t) => Cons(h.toString,t))
 
+    def map[A,B](as: List[A])(f: A => B): List[B] =
+        foldRight(as, Nil:List[B])((h,t) => Cons(f(h), t))
+ 
+    def filter[A](as: List[A])(f: A => Boolean): List[A] =
+        foldRight(as, Nil:List[A])((h,t) => if (f(h)) Cons(h,t) else t)
 
+    def flatMap[A,B](as: List[A])(f: A => List[B]): List[B] = 
+        concat(map(as)(f))
+
+    def filterViaFlatMap[A](as:List[A])(f: A => Boolean): List[A] =
+        flatMap(as)(a => if(f(a)) List(a) else Nil)
+    
+    def parewiseAdding(a: List[Int], b: List[Int]): List[Int] = (a,b) match{
+        case (Nil,_) => Nil
+        case (_, Nil) => Nil
+        case (Cons(h1,t1), Cons(h2,t2)) => Cons(h1+h2, parewiseAdding(t1,t2))
+    }
+ 
+    def zipWith[A](a: List[A], b: List[A])(f:(A,A) => A): List[A] = (a,b) match{
+        case (Nil,_) => Nil
+        case (_, Nil) => Nil
+        case (Cons(h1,t1), Cons(h2,t2)) => Cons(f(h1,h2), zipWith(t1,t2)(f)) 
+    }  
+
+    @annotation.tailrec
+    def startsWith[A](l: List[A], prefix: List[A]): Boolean = (l,prefix) match {
+        case (_,Nil) => true
+        case (Cons(h,t),Cons(h2,t2)) if h == h2 => startsWith(t, t2)
+        case _ => false
+    }
+    
+    @annotation.tailrec
+    def hasSubsequence[A](sup: List[A], sub: List[A]): Boolean = sup match {
+        case Nil => sub == Nil
+        case _ if startsWith(sup, sub) => true
+        case Cons(h,t) => hasSubsequence(t, sub)
+    }  
 }
 
 object TestChap3{
@@ -162,6 +198,21 @@ object TestChap3{
         println("Expected: \nCons(5,Cons(4,Cons(3,Cons(2,Cons(1,Nil)))))")
         println("Actual:")
         println(r)
+
+        //3.16
+
+        val a1 = List.add1(l)
+        println("Exercise 3.16")
+        println("Expected: \nCons(2,Cons(3,Cons(4,Cons(5,Cons(6,Nil)))))")
+        println("Actual:")
+        println(a1)
+
+        //3.22
+        val pa = List.parewiseAdding(l, r)
+        println("Exercise 3.16")
+        println("Expected: \nCons(6,Cons(6,Cons(6,Cons(6,Cons(6,Nil)))))")
+        println("Actual:")
+        println(pa)
 
 
     }
