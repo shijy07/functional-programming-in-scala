@@ -52,8 +52,12 @@ def apply[A](as: A*): List[A] = // Variadic function syntax
 ```
 By having such variadic functions, we can invoke it with syntax like `List(1,2,3,4)` or `List("Hi", "Bye")`.
 
-#### Data Sharing in functiona data structures
+#### Data Sharing in functional data structures
 
 Sharing of immutable data often lets us implement functions more efficiently. We can always return immutable dta structures without having to worry about subsequent code modifying our data. There is no need to pressimitically make copies to avoid modification or corruption.
+
+### Trees
+
+*Algebric data type* is a data type that is defined by one or more data constructors. Each data constructor may contain zero or more arguments. We say that the data type is the `sum` or `union` of its data constructors and each data constructor is the `product` of its arguments.
 
 
