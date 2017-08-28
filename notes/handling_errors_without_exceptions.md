@@ -81,6 +81,15 @@ val absO: Option[Double] => Option[Double] = lift(math.abs)
 ```
 We do not need to rewrite the `math.abs` function to work with optional values, we just lifted it into `Option` context after the fact. We can do this for any function. 
 
+#### The `Either` data type
 
+One thing we notice with `Option` is that it doesn't tell us anything about what went wrong in the case of an exception condition. We can craft a data type that encodes whatever information we want about failures. 
 
+```scala
+sealed trait Either[+E, +A]
+case class Left[+E](value: E) extends Either[E, Nothing]
+case class Right[+A](value: A) extends Either[A, Nothing]
+```
+
+`Either` has only two cases and both cases carry a value. By convention, the `Right` constructor is reserved for the success case, and the `Left` is used for failure.g 
 
